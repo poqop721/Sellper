@@ -1,6 +1,5 @@
 from flask import Flask, render_template, jsonify, request
 
-import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
