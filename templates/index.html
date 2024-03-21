@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
+
+    <title>구매대행 검색 프로그램</title>
+
+    <!-- style -->
+    <style type="text/css">
+        body{
+            min-width: 1023px;
+            padding-bottom: 50px;
+        }
+        .wrap {
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .jumbotron {
+            height: fit-content;
+            padding: 50px 20px;
+            background-color: rgb(222, 222, 222);
+            text-align: center;
+        }
+
+        .title {
+            font-weight: bold;
+        }
+
+        .input-group {
+            width: 70%;
+            margin: 0px auto;
+            margin-top: 50px;
+        }
+
+        .search_btn {
+            margin-top: 15px;
+        }
+
+        .btn {
+            margin-left: 10px;
+        }
+
+        .list-group {
+            max-width: 90%;
+            width: fit-content;
+            margin: 0 auto;
+        }
+
+        .list-group-item {
+            text-align: center;
+        }
+
+        .list-group-item:last-child {
+            margin-bottom: 30px;
+        }
+
+        .list-group-item-tag {
+            text-align: left;
+        }
+
+        .toast {
+            position: fixed;
+            top: 0;
+            right: 0;
+            margin: 10px;
+            background-color: white;
+            z-index: 5;
+        }
+
+        .me-2 {
+            width: 15px;
+        }
+
+        .lead {
+            margin-top: 20px;
+            font-weight: 400;
+        }
+
+        .mySelectView {
+            margin: 30px auto;
+            width: 70%;
+        }
+
+        .btn-group {
+            align-content: center;
+        }
+
+        .sort-radio {
+            margin: -5px auto 15px;
+        }
+
+        .name_textarea {
+            margin: 0 auto;
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .name_txtdiv {
+            display: flex;
+        }
+
+        textarea {
+            min-height: 50px;
+            border-radius: 10px;
+            border: 0.3px solid rgb(182, 182, 182);
+            padding: 10px;
+        }
+
+        #txtarea {
+            width: 100%;
+            background-color: rgb(241, 241, 241);
+        }
+
+        #byteInfo {
+            color: white;
+            width: 50px;
+            text-align: center;
+            height: fit-content;
+            margin-top: 12px;
+        }
+
+        .tablediv {
+            background-color: rgb(255, 255, 255);
+            border-radius: 10px;
+            border: 0.1px solid rgb(153, 153, 153);
+        }
+
+        tr {
+            display: flex;
+            flex-direction: column;
+        }
+
+        td {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 24px;
+            border-bottom: 0.1px solid rgb(153, 153, 153);
+        }
+
+        td:hover {
+            background-color: rgb(218, 218, 218);
+            cursor: pointer;
+        }
+
+        /* page-loading css */
+        .wrap-loading {
+            /*화면 전체 어둡게*/
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2);
+            /*not in ie */
+            filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000');
+            /* ie */
+            z-index: 10;
+            backdrop-filter: blur(5px);
+        }
+
+        .wrap-loading div {
+            /*로딩 이미지*/
+
+            position: fixed;
+
+            top: 50%;
+
+            left: 50%;
+
+            margin-left: -21px;
+
+            margin-top: -21px;
+
+        }
+
+        .display-none {
+            display: none;
+        }
+
+        .page-item {
+            cursor: pointer;
+        }
+
+        #num_of_page {
+            width: fit-content;
+            margin: 0 auto 20px;
+        }
+
+        .pg_desc {
+            cursor: default;
+        }
+
+        .pg_desc .page-link {
+            color: white;
+            background-color: rgb(127, 127, 127);
+        }
+
+        .btn-group>.btn {
+            z-index: 3;
+        }
+
+        .active>.page-link {
+            z-index: 3;
+        }
+
+        .btn_check {
+            margin-bottom: 20px;
+            width: 60%;
+        }
+
+        .copy_texts {
+            padding: 5px;
+        }
+
+        .copy_texts:hover {
+            background-color: rgb(218, 218, 218);
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .tag_title {
+            color: #fe5454;
+            font-weight: 600;
+        }
+
+        .tag_tag {
+            color: #3636ff;
+            font-weight: 600;
+        }
+
+        /* .button.btn-close{
+            position: relative;
+            right: -78%;
+        } */
+
+        .info_search {
+            color: rgb(87, 87, 87);
+        }
+
+        .info_tip {
+            color: rgb(87, 87, 87);
+            font-size: 0.85em;
+            font-style: italic;
+        }
+
+        .info_search span {
+            font-weight: bold;
+            color: #3d9c4d;
+        }
+
+        .loading_msg {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 80px;
+            font-weight: 700;
+            font-size: 1.5em;
+        }
+
+        .copy_txt_area {
+            position: fixed;
+            top: 0;
+            right: 0;
+        }
+
+        .over {
+            color: red;
+        }
+
+        .txtareabtngroup {
+            width: 100%;
+            margin: -10px auto 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .txtareabtngroup>.alert.alert-success {
+            height: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            margin-left: 10px;
+        }
+
+        .inpNum {
+            height: 31px;
+            width: 92px;
+            text-align: center;
+        }
+
+        .numInp {
+            border-radius: 5px 0px 0px 5px;
+            margin-left: 10px;
+            z-index: 2;
+        }
+
+        .numSpan {
+            border-radius: 0px;
+            border-left: 0px;
+            z-index: 1;
+        }
+        .copyres{
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: end;
+        }
+    </style>
+    <script>
+        let num_of_pages = 2
+        let selectedSortNum = 50
+        $(document).ready(function () {
+            $('#list_group_cat').css('display', 'block')
+            $('.name_textarea').css('display', 'none')
+            $('#list_group_tag').css('display', 'none')
+            $('.btn_radio').css('display', 'none')
+            $("input[name='btnradio']").change(function () {
+                radioBlock()
+            });
+            $("input[name='sort']").change(function () {
+                checkUrl()
+            });
+            $("input[name='pg']").change(function () {
+                checkTextAreaByte()
+            });
+            $("#search_name").bind("keydown", function (e) {
+                if (e.keyCode == 13) { // enter key
+                    search()
+                    return false
+                }
+            });
+        });
+        function radioBlock() {
+            if ($('input[name=btnradio]:checked').val() == '1') {
+                $('#list_group_cat').css('display', 'block')
+                $('#list_group_tag').css('display', 'none')
+                $('.name_textarea').css('display', 'none')
+            } else if ($('input[name=btnradio]:checked').val() == '3') {
+                $('#list_group_cat').css('display', 'none')
+                $('#list_group_tag').css('display', 'block')
+                $('.name_textarea').css('display', 'none')
+            }
+            else {
+                $('#list_group_tag').css('display', 'none')
+                $('#list_group_cat').css('display', 'none')
+                $('.name_textarea').css('display', 'flex')
+            }
+        }
+
+        function checkBytefun() {
+            // jquery 사용해 textarea keyup 이벤트 지정 실시
+            $("#txtarea").on("keyup", function () {
+                checkTextAreaByte()
+            });
+        };
+
+
+        function checkTextAreaByte() {
+            $('#trbt').empty()
+            let txts = $("#txtarea").val()
+            let eachtxt = txts.split('\n')
+            let txtlen = ''
+            let tddata = ''
+            for (let i = 0; i < eachtxt.length; i++) {
+                let thistxtlen = 0
+                if (eachtxt[i].length == 0) {
+                    thistxtlen = 0
+                    tddata = `<td></td>`
+                }
+                else {
+                    if ($('input[name="pg"]:checked').val() == '1') {
+                        thistxtlen = eachtxt[i].length
+                    } else {
+                        thistxtlen = calcInByte(eachtxt[i])
+                    }
+                    if (thistxtlen <= selectedSortNum) { tddata = `<td onclick="copy_list('${eachtxt[i].replace(/^\s+|\s+$/gm, '')}')">${thistxtlen}</td>` }
+                    else { tddata = `<td onclick="copy_list('${eachtxt[i].replace(/^\s+|\s+$/gm, '')}')"><span class="over">${thistxtlen}</span></td>` }
+                }
+                $('#trbt').append(tddata)
+            }
+            let rowCount = txts.split(/\r\n|\r|\n/)
+            for(let q = rowCount.length-1;q>=0;q--){
+                if(rowCount[q] == '' || rowCount[q] == ' ' ) rowCount.pop()
+                else break
+            }
+            if(rowCount.length <5)$('#copy5btn').attr('disabled',true)
+            else $('#copy5btn').attr('disabled',false)
+            txtAreaHeight()
+            // p 태그 값을 변경 실시 (현재 입력된 글자)
+        }
+
+        function checkUrl() {
+            switch ($('input[name="sort"]:checked').val()) {
+                case '1':
+                    $('#issort').text(' 네이버 랭킹순')
+                    return ("https://search.shopping.naver.com/search/all?query=" + $('#search_name').val())
+                    break
+                case '2':
+                    $('#issort').text(' 리뷰 많은순')
+                    return ("https://search.shopping.naver.com/search/all?query=" + $('#search_name').val() + '&sort=review')
+                    break
+                case '3':
+                    $('#issort').text(' 리뷰 좋은순')
+                    return ("https://search.shopping.naver.com/search/all?query=" + $('#search_name').val() + '&sort=review_rel')
+                    break
+            }
+        }
+
+        function search() {
+            let search_name = $('#search_name').val()
+            if (!$('#check_cat').is(':checked') && !$('#check_name').is(':checked') && !$('#check_tag').is(':checked')) {
+                alert("'카테고리'나 '제목'이나 '태그' 중 하나는 선택해야 합니다.")
+                return
+            }
+            let check = [!$('#check_ad').is(':checked'), !$('#check_cat').is(':checked'), !$('#check_name').is(':checked'), !$('#check_tag').is(':checked')]
+            let finalUrl = checkUrl()
+            switch ($('input[sort]:checked').val()) {
+                case 1:
+                    finalUrl = "https://search.shopping.naver.com/search/all?query=" + $('#search_name').val()
+                    break
+                case 2:
+                    finalUrl = "https://search.shopping.naver.com/search/all?query=" + $('#search_name').val() + '&sort=review'
+                    break
+                case 3:
+                    finalUrl = "https://search.shopping.naver.com/search/all?query=" + $('#search_name').val() + '&sort=review_rel'
+                    break
+            }
+            if (search_name == "") {
+                alert('먼저 검색어를 입력해주세요')
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/search",
+                    data: { "url": finalUrl, 'num_of_pages': num_of_pages, 'check': check },
+                    beforeSend: function () {
+                        $('.wrap-loading').removeClass('display-none');
+                    },
+                    // 로딩 이미지 감추기
+                    complete: function () {
+                        $('.wrap-loading').addClass('display-none');
+                    },
+                    success: function (response) { // 성공하면
+                        if (response["result"] == "success") {
+                            $('.btn_radio').css('display', 'inherit')
+                            $('#btnradio1').attr('disabled', false)
+                            $('#btnradio2').attr('disabled', false)
+                            $('#btnradio3').attr('disabled', false)
+                            $('#btnradio1').prop('checked', false)
+                            $('#btnradio2').prop('checked', false)
+                            $('#btnradio3').prop('checked', false)
+                            $('#list_group_cat').empty()
+                            $('#list_group_tag').empty()
+                            let categories = response['categories']
+                            for (let i = 0; i < categories.length; i++) {
+                                let list_group_cat_item = `
+                            <a class="list-group-item">${categories[i]}</a>
+                            `
+                                $('#list_group_cat').append(list_group_cat_item)
+                            }
+
+                            let tags = response['tag']
+                            for (let i = 0; i < tags.length; i++) {
+                                let list_group_tag_item = `
+                            <a class="list-group-item list-group-item-tag">${tags[i]}</a>
+                            `
+                                $('#list_group_tag').append(list_group_tag_item)
+                            }
+
+                            let names = response['name']
+                            $('.name_txtdiv').empty()
+                            let txtar = `
+                            <textarea id="txtarea" wrap=off>${names}</textarea>
+                            `
+                            let byteInfo = `
+                            <div class="tablediv">
+                            <table class="table" id="byteInfo">
+  <tbody>
+    <tr id="trbt">
+    </tr>
+    </tbody>
+    </table>
+    </div>
+                            `
+                            $('.name_txtdiv').append(byteInfo)
+                            $('.name_txtdiv').append(txtar)
+                            txtAreaHeight()
+                            handleCheck()
+                            radioBlock()
+                            checkBytefun()
+                            checkTextAreaByte()
+                        }
+
+                        else $('#myModal').modal('toggle')
+                    }
+                })
+            }
+        }
+
+        function addSearch() {
+            let rowCount = $('#txtarea').val().split(/\r\n|\r|\n/)
+            let addedres = ''
+            for (let i = 0; i < rowCount.length; i++) {
+                if (rowCount[i] != '') {
+                    if (i + 1 != rowCount.length) {
+                        addedres = addedres + $('#search_name').val().replace(/^\s+|\s+$/gm, '') + ' ' + rowCount[i] + '\n'
+                    } else {
+                        addedres = addedres + $('#search_name').val().replace(/^\s+|\s+$/gm, '') + ' ' + rowCount[i]
+                    }
+                }
+            }
+            document.getElementById('txtarea').value = addedres
+            txtAreaHeight()
+            checkTextAreaByte()
+        }
+
+        function txtAreaHeight() {
+            let rowCount = $('#txtarea').val().split(/\r\n|\r|\n/)
+            let targetTextarea = document.querySelector(`#txtarea`);
+            targetTextarea.style.height = 0
+            if (rowCount.length < 9)
+                targetTextarea.style.height = "216px"; //특정 줄 수 보다 작아지면 height가 이것보다 작아지지 않았으면 한다
+            else
+                targetTextarea.style.height = (rowCount.length * 27) + "px";
+        }
+
+        function delSearch() {
+            $('#txtarea').val($('#txtarea').val().replaceAll($('#search_name').val() + ' ', ''))
+            $('#txtarea').val($('#txtarea').val().replaceAll($('#search_name').val(), ''))
+            checkTextAreaByte()
+        }
+
+        function handleCheck() {
+            if (!$('#check_cat').is(':checked') && !!$('#check_name').is(':checked') && !!$('#check_tag').is(':checked')) {
+                $('#btnradio1').attr('disabled', true)
+                $('#btnradio2').prop('checked', true)
+            }
+            else if (!!$('#check_cat').is(':checked') && !$('#check_name').is(':checked') && !!$('#check_tag').is(':checked')) {
+                $('#btnradio2').attr('disabled', true)
+                $('#btnradio1').prop('checked', true)
+            }
+            else if (!!$('#check_cat').is(':checked') && !!$('#check_name').is(':checked') && !$('#check_tag').is(':checked')) {
+                $('#btnradio3').attr('disabled', true)
+                $('#btnradio1').prop('checked', true)
+            }
+            else if (!$('#check_cat').is(':checked') && !$('#check_name').is(':checked') && !!$('#check_tag').is(':checked')) {
+                $('#btnradio1').attr('disabled', true)
+                $('#btnradio2').attr('disabled', true)
+                $('#btnradio3').prop('checked', true)
+            }
+            else if (!!$('#check_cat').is(':checked') && !$('#check_name').is(':checked') && !$('#check_tag').is(':checked')) {
+                $('#btnradio2').attr('disabled', true)
+                $('#btnradio3').attr('disabled', true)
+                $('#btnradio1').prop('checked', true)
+            }
+            else if (!$('#check_cat').is(':checked') && !!$('#check_name').is(':checked') && !$('#check_tag').is(':checked')) {
+                $('#btnradio1').attr('disabled', true)
+                $('#btnradio3').attr('disabled', true)
+                $('#btnradio2').prop('checked', true)
+            }
+            else if (!!$('#check_cat').is(':checked') && !!$('#check_name').is(':checked') && !!$('#check_tag').is(':checked')) {
+                $('#btnradio1').prop('checked', true)
+            }
+        }
+
+        function goToShop() {
+            let search_name = $('#search_name').val()
+            if (search_name != "")
+                window.open(checkUrl())
+            else alert('먼저 검색어를 입력해주세요')
+        }
+
+        function copy_list(gotstr) {
+            str = gotstr.replace(/^\s+|\s+$/gm, '')
+            $('.toast-body').empty()
+            $('.toast-body').append(`<a>'${str}'  복사됨</a>`)
+            $('.toast').toast('show')
+            copyToClipboard(str)
+        }
+
+        function getToSearchBar(name) {
+            $('#search_name').val(name)
+        }
+
+        function select_depth(num) {
+            switch (num) {
+                case 0:
+                    $('.pg0').addClass('active')
+                    $('.pg1').removeClass('active')
+                    $('.pg2').removeClass('active')
+                    $('.pg3').removeClass('active')
+                    $('.pg4').removeClass('active')
+                    num_of_pages = 0 //5
+                    $('#howmuch').text('5')
+                    break
+                case 1:
+                    $('.pg0').removeClass('active')
+                    $('.pg1').addClass('active')
+                    $('.pg2').removeClass('active')
+                    $('.pg3').removeClass('active')
+                    $('.pg4').removeClass('active')
+                    num_of_pages = 2 //15
+                    $('#howmuch').text('15')
+                    break
+                case 2:
+                    $('.pg0').removeClass('active')
+                    $('.pg1').removeClass('active')
+                    $('.pg2').addClass('active')
+                    $('.pg3').removeClass('active')
+                    $('.pg4').removeClass('active')
+                    num_of_pages = 6 //25
+                    $('#howmuch').text('25')
+                    break
+                case 3:
+                    $('.pg0').removeClass('active')
+                    $('.pg1').removeClass('active')
+                    $('.pg2').removeClass('active')
+                    $('.pg3').addClass('active')
+                    $('.pg4').removeClass('active')
+                    num_of_pages = 10 //35
+                    $('#howmuch').text('35')
+                    break
+                case 4:
+                    $('.pg0').removeClass('active')
+                    $('.pg1').removeClass('active')
+                    $('.pg2').removeClass('active')
+                    $('.pg3').removeClass('active')
+                    $('.pg4').addClass('active')
+                    num_of_pages = 13 //45
+                    $('#howmuch').text('45')
+                    break
+
+            }
+        }
+
+        function handleInfo(num) {
+            switch (num) {
+                case 0:
+                    if (!$('#check_ad').is(':checked')) $('#isadd').text('제외')
+                    else $('#isadd').text('포함')
+                    $('.info_search').text()
+                    break
+                case 1:
+                    if (!$('#check_cat').is(':checked')) $('#iscat').text('')
+                    else $('#iscat').text("  '카테고리'  ")
+                    break
+                case 2:
+                    if (!$('#check_name').is(':checked')) $('#isname').text('')
+                    else $('#isname').text("  '상품-제목'  ")
+                    break
+                case 3:
+                    if (!$('#check_tag').is(':checked')) $('#istag').text('')
+                    else $('#istag').text("  '태그'  ")
+                    break
+            }
+        }
+
+        function unsecuredCopyToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.classList.add('copy_txt_area')
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+            } catch (err) {
+                console.error('Unable to copy to clipboard', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        const copyToClipboard = (content) => {
+            if (window.isSecureContext && navigator.clipboard) {
+                navigator.clipboard.writeText(content);
+            } else {
+                unsecuredCopyToClipboard(content);
+            }
+        };
+
+        function splitAndAddSearch() {
+            if ($('#sortNum').val() == '' || $('#sortNum').val() == undefined) {
+                alert('글자 수를 먼저 입력해주세요.')
+                $('#sortNum').focus()
+                return
+            }
+            else if($('#sortNum').val() < 7){
+                alert('7 글자 이상으로 입력해주세요.')
+                $('#sortNum').focus()
+                return
+            }
+            let search_num_byte = $('#search_name').val().replace(/^\s+|\s+$/gm, '') + ' '
+            if ($('input[name="pg"]:checked').val() == '1') splitAll($('#sortNum').val() - search_num_byte.length)
+            else splitAll($('#sortNum').val() - calcInByte(search_num_byte))
+            addSearch()
+        }
+
+        // 자동정렬
+        function splitAll(sortNum) {
+            if (sortNum == '' || sortNum == undefined) {
+                alert('글자 수를 먼저 입력해주세요.')
+                $('#sortNum').focus()
+                return
+            }
+            else if(sortNum < 7){
+                alert('7 글자 이상으로 입력해주세요.')
+                $('#sortNum').focus()
+                return
+            }
+            selectedSortNum = $('#sortNum').val()
+            //모든 글자 쪼개서 txtarr 으로 삽입
+            let search_num_byte = $('#search_name').val().replace(/^\s+|\s+$/gm, '')
+            let txtsplitArr = $("#txtarea").val().split('\n')
+            let txtarr = []
+            for (let i = 0; i < txtsplitArr.length; i++) {
+                let splited = txtsplitArr[i].replace(/^\s+|\s+$/gm, '').split(' ')
+                for (let k = 0; k < splited.length; k++) {
+                    txtarr.push(splited[k])
+                }
+            }
+            let res = []
+            if ($('input[name="pg"]:checked').val() == '1') { //글자 수
+                while (txtarr.length >= 1) {
+                    let oneLine = ''
+                    while (txtarr.length >= 1) {
+                        let first = txtarr[0]
+                        if ((oneLine + first).length <= sortNum) {
+                            oneLine = oneLine + first + ' '
+                            txtarr.shift()
+                        }
+                        else break
+                    }
+                    res.push(oneLine)
+                }
+                let restxt = ''
+                for (let j = 0; j < res.length; j++) {
+                    if (j == res.length - 1) restxt = restxt + res[j].replace(/^\s+|\s+$/gm, '')
+                    else restxt = restxt + res[j].replace(/^\s+|\s+$/gm, '') + '\n'
+                }
+                $('#txtarea').val(restxt)
+                txtAreaHeight()
+                checkBytefun()
+                checkTextAreaByte()
+            }
+            else { //byte
+                while (txtarr.length >= 1) {
+                    let oneLine = ''
+                    while (txtarr.length >= 1) {
+                        let first = txtarr[0]
+                        let thistxtlen = calcInByte(first)
+                        let oneLinelen = calcInByte(oneLine)
+                        if ((oneLinelen + thistxtlen) <= sortNum) {
+                            oneLine = oneLine + first + ' '
+                            txtarr.shift()
+                        }
+                        else break
+                    }
+                    res.push(oneLine)
+                }
+                let restxt = ''
+                for (let j = 0; j < res.length; j++) {
+                    if (j == res.length - 1) restxt = restxt + res[j].replace(/^\s+|\s+$/gm, '')
+                    else restxt = restxt + res[j].replace(/^\s+|\s+$/gm, '') + '\n'
+                }
+                $('#txtarea').val(restxt)
+                txtAreaHeight()
+                checkBytefun()
+                checkTextAreaByte()
+            }
+        }
+
+        function calcInByte(word) {
+            let txtlen = 0
+            for (k = 0; k < word.length; k++) {
+                let str_character = word.charAt(k);
+                if (escape(str_character).length > 4)
+                    txtlen += 2;
+                else
+                    txtlen++;
+            }
+            return txtlen
+        }
+
+        function copyres(opt){
+            let txtarea = $("#txtarea").val()
+            let rowCount = txtarea.split(/\r\n|\r|\n/)
+            if(opt == 5){
+                let res = ''
+                for (let i = 0;i<5;i++){
+                    if(i+1 != 5) res = res + rowCount[i] + '\n'
+                    else res = res + rowCount[i]
+                }
+                copy_list(res)
+            }
+            else copy_list(txtarea)
+        }
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4 title">구매대행 카테고리 & 제목 & 태그 찾기</h1>
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" aria-label="Text input with dropdown button"
+                    placeholder="여기에 검색어 입력" id="search_name">
+            </div>
+            <div class="btn-group  btn_check mySelectView" role="group" aria-label="Basic checkbox toggle button group">
+                <input type="checkbox" class="btn-check" id="check_ad" autocomplete="off" onclick="handleInfo(0)">
+                <label class="btn btn-outline-secondary" for="check_ad">광고 포함</label>
+
+                <input type="checkbox" class="btn-check" id="check_cat" autocomplete="off" onclick="handleInfo(1)">
+                <label class="btn btn-outline-secondary" for="check_cat">카테고리</label>
+
+                <input type="checkbox" class="btn-check" id="check_name" autocomplete="off" onclick="handleInfo(2)">
+                <label class="btn btn-outline-secondary" for="check_name">제목</label>
+
+                <input type="checkbox" class="btn-check" id="check_tag" autocomplete="off" onclick="handleInfo(3)">
+                <label class="btn btn-outline-secondary" for="check_tag">태그</label>
+            </div>
+            <nav id="num_of_page" aria-label="...">
+                <ul class="pagination pagination-sm">
+                    <li class="page-item pg_desc disabled">
+                        <span class="page-link">분석 상품 갯수</span>
+                    </li>
+                    <li class="page-item pg0"><a class="page-link" onclick="select_depth(0)">5 개</a></li>
+                    <li class="page-item pg1 active"><a class="page-link" onclick="select_depth(1)">15 개</a></li>
+                    <li class="page-item pg2"><a class="page-link" onclick="select_depth(2)">25 개</a></li>
+                    <li class="page-item pg3"><a class="page-link" onclick="select_depth(3)">35 개</a></li>
+                    <li class="page-item pg4"><a class="page-link" onclick="select_depth(4)">45 개</a></li>
+                </ul>
+            </nav>
+            <p class="info_tip">[ Tip : 제외하는 항목이 많을수록 (특히 태그), 그리고 분석 상품 갯수가 적을수록 더 빠른 검색이 가능합니다. ]</p>
+            <div class="btn-group btn-group-sm sort-radio" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="sort" id="rank" autocomplete="off" value=1 checked>
+                <label class="btn btn-outline-secondary" for="rank">네이버 랭킹순</label>
+
+                <input type="radio" class="btn-check" name="sort" id="review" autocomplete="off" value=2>
+                <label class="btn btn-outline-secondary" for="review">리뷰 많은순</label>
+
+                <input type="radio" class="btn-check" name="sort" id="review_rel" autocomplete="off" value=3>
+                <label class="btn btn-outline-secondary" for="review_rel">리뷰 좋은순</label>
+            </div>
+            <p class="info_search">약 <span id="howmuch">15</span> 개 정도의 상품을 광고를 <span id="isadd">제외</span>하여 <span
+                    id="iscat">  </span><span id="isname">  </span><span id="istag">  </span> 을/를 <span
+                    id="issort"> 네이버 랭킹순</span>으로 검색합니다.</p>
+            <div class="search_btn">
+                <button class="btn btn-danger" onclick="search()" type="button">카테고리 & 제목 찾기</button>
+                <button class="btn btn-success" onclick="goToShop()" type="button">네이버쇼핑 검색하기</button>
+            </div>
+        </div>
+        <div class="btn-group btn_radio mySelectView" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="1" autocomplete="off">
+            <label class="btn btn-outline-primary" for="btnradio1">카테고리</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="2" autocomplete="off">
+            <label class="btn btn-outline-primary" for="btnradio2">제목</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="3" autocomplete="off">
+            <label class="btn btn-outline-primary" for="btnradio3">태그</label>
+        </div>
+        <div class="list-group" id="list_group_cat">
+        </div>
+    </div>
+    <div class="list-group" id="list_group_tag">
+    </div>
+    <div class="name_textarea">
+        <div class="txtareabtngroup">
+            <div class="btn-group btn-group-sm pg-radio" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="pg" id="windly" autocomplete="off" checked value="1">
+                <label class="btn btn-outline-dark" for="windly">글자수</label>
+
+                <input type="radio" class="btn-check" name="pg" id="rapidup" autocomplete="off" value="2">
+                <label class="btn btn-outline-dark" for="rapidup">byte</label>
+            </div>
+            <div>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                    <button type="button" class="btn btn-outline-secondary" onclick="addSearch()">맨 앞에 검색어 추가</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="delSearch()">검색어 제거</button>
+                </div>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                    <input type="number" id="sortNum" class="form-control inpNum numInp" placeholder="글자 수"
+                        aria-label="글자 수" aria-describedby="basic-addon2" value="50">
+                    <span class="input-group-text inpNum numSpan" id="basic-addon2">자로</span>
+                    <button type="button" class="btn btn-outline-secondary" onclick="splitAll($('#sortNum').val())">자동
+                        정렬</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="splitAndAddSearch()">자동 정렬 후 검색어
+                        추가</button>
+                </div>
+            </div>
+        </div>
+        <div class="name_txtdiv"></div>
+        <div class="copyres">
+            <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                <button type="button" class="btn btn-outline-success" id="copy5btn" onclick="copyres(5)">상위 5줄 복사</button>
+                <button type="button" class="btn btn-outline-success" onclick="copyres(0)">전체 복사</button>
+              </div>
+        </div>
+    </div>
+    </div>
+    <div class="modal" tabindex="-1" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">정보를 가져올 수 없습니다.</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>예상치 못한 문제로 인해 정보를 가져올 수 없습니다.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="1500">
+        <div class="toast-header">
+            <img src="{{url_for('static', filename='check.png')}}" class="rounded me-2" alt="...">
+            <strong class="me-auto">알림</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+        </div>
+    </div>
+    <div class="wrap-loading display-none">
+        <div><img src="{{url_for('static', filename='loading1.gif')}}" style="width:50px" />
+        </div>
+        <span class="loading_msg"> 로딩중입니다.<br> 이 페이지를 끄지 마십시오.<br>{{progress}}</span>
+    </div>
+</body>
+
+</html>
