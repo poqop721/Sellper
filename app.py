@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 
 from bs4 import BeautifulSoup
+import requests
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -32,25 +33,25 @@ def search_category():
    num_of_page = int(request.form['num_of_pages'])
    check = request.form.getlist('check[]')
    print(num_of_page, check)
-   # if num_of_page != 0 : # beautifulsoup 네이버 막힘
-   driver = webdriver.Chrome(options=chrome_options)
+   if num_of_page != 0 : # beautifulsoup 네이버 막힘
+      driver = webdriver.Chrome(options=chrome_options)
 
-   driver.get(url)
-   time.sleep(1)
+      driver.get(url)
+      time.sleep(1)
 
-   body = driver.find_element(By.TAG_NAME, "body")
-   for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
-            desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
-            ncols =80,):
-      body.send_keys(Keys.PAGE_DOWN)
-      time.sleep(0.5)
+      body = driver.find_element(By.TAG_NAME, "body")
+      for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
+               desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
+               ncols =80,):
+         body.send_keys(Keys.PAGE_DOWN)
+         time.sleep(0.5)
 
-      html = driver.page_source
+         html = driver.page_source
 
-      soup = BeautifulSoup(html, 'html.parser')
-   # else :
-   #    data = requests.get(url,headers=headers)
-   #    soup = BeautifulSoup(data.text, 'html.parser')
+         soup = BeautifulSoup(html, 'html.parser')
+   else :
+      data = requests.get(url,headers=headers)
+      soup = BeautifulSoup(data.text, 'html.parser')
 
    cat_result_box = list()
    name_result_box = list()
