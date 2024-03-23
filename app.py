@@ -17,11 +17,6 @@ chrome_options.add_argument("--disable-gpu")
 # chrome_options.add_argument("--headless")
 chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
 chrome_options.add_argument('--headless=new')
-prefs = {"profile.default_content_settings.popups": 0,    
-        "download.default_directory":"/tmp/", ### Set the path accordingly
-        "download.prompt_for_download": True, ## change the downpath accordingly
-        "download.directory_upgrade": True}
-chrome_options.add_experimental_option("prefs", prefs)
 
 ## HTML을 주는 부분
 @app.route('/')
@@ -180,3 +175,6 @@ def nameCheck(name_result_box):
         resString += '\n' 
    return resString
 
+
+if __name__ == '__main__':
+   app.run('0.0.0.0',port=3000,debug=True)
