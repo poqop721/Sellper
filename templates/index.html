@@ -626,7 +626,7 @@
                     $('.pg2').removeClass('active')
                     $('.pg3').removeClass('active')
                     $('.pg4').removeClass('active')
-                    num_of_pages = 2 //15
+                    num_of_pages = 4 //15
                     $('#howmuch').text('15')
                     break
                 case 2:
@@ -635,7 +635,7 @@
                     $('.pg2').addClass('active')
                     $('.pg3').removeClass('active')
                     $('.pg4').removeClass('active')
-                    num_of_pages = 6 //25
+                    num_of_pages = 10 //25
                     $('#howmuch').text('25')
                     break
                 case 3:
@@ -644,7 +644,7 @@
                     $('.pg2').removeClass('active')
                     $('.pg3').addClass('active')
                     $('.pg4').removeClass('active')
-                    num_of_pages = 10 //35
+                    num_of_pages = 13 //35
                     $('#howmuch').text('35')
                     break
                 case 4:
@@ -653,7 +653,7 @@
                     $('.pg2').removeClass('active')
                     $('.pg3').removeClass('active')
                     $('.pg4').addClass('active')
-                    num_of_pages = 13 //45
+                    num_of_pages = 16 //45
                     $('#howmuch').text('45')
                     break
 
@@ -677,7 +677,10 @@
                     break
                 case 3:
                     if (!$('#check_tag').is(':checked')) $('#istag').text('')
-                    else $('#istag').text("  '태그'  ")
+                    else {
+                        $('#istag').text("  '태그'  ")
+                        alert('네이버의 정책 변경으로 태그 검색은 많은 시간이 소요됩니다.')
+                    }
                     break
             }
         }
