@@ -131,7 +131,7 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
                   # driver2 = webdriver.Chrome(options=chrome_options)
    
                   # driver2.get(name.attrs['href'])
-                  # time.sleep(1)
+                  time.sleep(1)
 
                   # html = driver2.page_source
 
