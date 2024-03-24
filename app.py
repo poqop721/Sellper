@@ -125,9 +125,9 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
                div_grade = ''
             if div_grade in ('파워', '빅파워', '프리미엄'):
                   name_response = requests.get(url=name.attrs['href'],headers=headers)
-                  print(name_response)
                   time.sleep(random.uniform(0.2, 0.7))
                   soup = BeautifulSoup(name_response.text, 'html.parser') # beautifulsoup 네이버 막힘
+                  print(soup)
                   
                   # driver2 = webdriver.Chrome(options=chrome_options)
    
