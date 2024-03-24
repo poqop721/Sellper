@@ -108,9 +108,11 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
    else :
       contents = list(soup.select('.adProduct_item__1zC9h')) #광고
       desc_msg = '광고 상품 분석중 : '
+   count = 0
    for content in tqdm(contents,total = len(contents), ## 전체 진행수
               desc = desc_msg, ## 진행률 앞쪽 출력 문장
               ncols = 80,):
+      count = count + 1
       if content is not None:
          num_of_content = num_of_content + 1
          if check[1] == 'false':
@@ -147,6 +149,8 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
             except:
                div_grade = ''
             if div_grade in ('파워', '빅파워', '프리미엄'):
+                  if count > 15:
+                     continue
                   # time.sleep(random.uniform(0.7, 1.5))
                   # randomH = RandomUserAgentTest()
                   # name_response = requests.get(name.attrs['href'],headers=randomH.ret_headers())
