@@ -455,15 +455,15 @@
             }
             if($('#check_tag').is(':checked')){
                 if(num_of_pages === 0){
-                    $('.loading_msg_tag').text = '태그 검색으로 인해 약 2분정도 소요됩니다.'
+                    $('.loading_msg_tag').text = '태그 검색으로 인해 약 1분정도 소요됩니다.'
                 } else if(num_of_pages === 4){
-                    $('.loading_msg_tag').text = '태그 검색으로 인해 약 5분정도 소요됩니다.'
+                    $('.loading_msg_tag').text = '태그 검색으로 인해 약 3분정도 소요됩니다.'
                 } else if(num_of_pages === 10){
                     $('.loading_msg_tag').text = '태그 검색으로 인해 약 5분정도 소요됩니다.'
                 } else if(num_of_pages === 13){
-                    $('.loading_msg_tag').text = '태그 검색으로 인해 약 5분정도 소요됩니다.'
+                    $('.loading_msg_tag').text = '태그 검색으로 인해 약 7분정도 소요됩니다.'
                 } else {
-                    $('.loading_msg_tag').text = '태그 검색으로 인해 약 5분정도 소요됩니다.'
+                    $('.loading_msg_tag').text = '태그 검색으로 인해 약 10분정도 소요됩니다.'
                 }
             } else{
                 $('.loading_msg_tag').text = ''
@@ -694,7 +694,7 @@
                     if (!$('#check_tag').is(':checked')) $('#istag').text('')
                     else {
                         $('#istag').text("  '태그'  ")
-                        alert('네이버의 정책 변경으로 태그 검색은 많은 시간이 소요됩니다.\n(상품 갯수 5개는 2분, 15개는 5분정도 소요)\n태그 검색시 최대 분석 상품 갯수는 15개 입니다.')
+                        alert('(ec2 프리티어 사용으로 인해) 태그 검색은 많은 시간이 소요됩니다.\n상품 갯수 5개는 1분, 15개는 3분, 25개는 5분, 35개는 7분, 45개는 10분정도 소요됩니다.\n 이점 잘 참고하시고 이용해주세요.')
                     }
                     break
             }
