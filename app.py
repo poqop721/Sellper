@@ -50,6 +50,7 @@ def search_category():
 
          soup = BeautifulSoup(html, 'html.parser')
    else :
+      print(1)
       data = requests.get(url,headers=headers)
       soup = BeautifulSoup(data.text, 'html.parser')
 
