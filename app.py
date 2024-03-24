@@ -108,7 +108,6 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
    else :
       contents = list(soup.select('.adProduct_item__1zC9h')) #광고
       desc_msg = '광고 상품 분석중 : '
-   driver2 = webdriver.Chrome(options=chrome_options)
    for content in tqdm(contents,total = len(contents), ## 전체 진행수
               desc = desc_msg, ## 진행률 앞쪽 출력 문장
               ncols = 80,):
@@ -147,6 +146,7 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
                   div_grade = content.select_one('.adProduct_grade__C3wzo').text
             except:
                div_grade = ''
+            driver2 = webdriver.Chrome(options=chrome_options)
             if div_grade in ('파워', '빅파워', '프리미엄'):
                   # time.sleep(random.uniform(0.7, 1.5))
                   # randomH = RandomUserAgentTest()
@@ -176,7 +176,7 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
                   except:
                      print('\nnono\n')
                   time.sleep(random.uniform(0.3, 1))
-   driver2.close()
+            driver2.close()
    return num_of_content
 
 def nameCheck(name_result_box):
