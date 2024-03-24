@@ -453,6 +453,9 @@
                     finalUrl = "https://search.shopping.naver.com/search/all?query=" + $('#search_name').val() + '&sort=review_rel'
                     break
             }
+            if($('#check_tag').is(':checked') && num_of_pages > 4){
+                alert('태그 검색의 분석 상품 갯수는 최대 15개 입니다. \n분석 상품 갯수를 15개 이하로 설정해주세요.')
+            }
             if (search_name == "") {
                 alert('먼저 검색어를 입력해주세요')
             } else {
@@ -679,7 +682,7 @@
                     if (!$('#check_tag').is(':checked')) $('#istag').text('')
                     else {
                         $('#istag').text("  '태그'  ")
-                        alert('네이버의 정책 변경으로 태그 검색은 많은 시간이 소요됩니다.\n(상품 갯수 5개는 2분, 15개는 5분정도 소요)\n태그 검색시 최대 분석 상품 갯수는 15개 입니다.\n(더 많이 선택하셔도 자동으로 15개만 검색됨)')
+                        alert('네이버의 정책 변경으로 태그 검색은 많은 시간이 소요됩니다.\n(상품 갯수 5개는 2분, 15개는 5분정도 소요)\n태그 검색시 최대 분석 상품 갯수는 15개 입니다.')
                     }
                     break
             }
