@@ -2,7 +2,6 @@ from flask import Flask, render_template, jsonify, request
 
 from bs4 import BeautifulSoup
 import requests
-from fake_useragent import UserAgent
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -11,8 +10,6 @@ import time, random
 from tqdm import tqdm
 
 app = Flask(__name__)
-ua = UserAgent()
-headers = {'User-Agent' : ua.random}
 
 chrome_options = Options()
 chrome_options.add_argument("--disable-extensions")
@@ -21,6 +18,27 @@ chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
 chrome_options.add_argument('--headless=new')
 chrome_options.add_argument('--no-sandbox')
+
+from random_user_agent.user_agent import UserAgent
+from random_user_agent.params import SoftwareName, OperatingSystem
+
+
+class RandomUserAgentTest:
+    def __init__(self):
+        self.get_headers()
+        print(self.headers)
+
+    def set_user_agent(self):
+        software_names = [SoftwareName.CHROME.value]
+        operating_systems = [OperatingSystem.WINDOWS.value, OperatingSystem.LINUX.value]
+        user_agent_rotator = UserAgent(software_names=software_names, operating_systems=operating_systems, limit=100)
+        self.user_agent = user_agent_rotator.get_random_user_agent()
+
+    def get_headers(self):
+        self.set_user_agent()
+        self.headers = {
+            "User-Agent": self.user_agent,
+        }
 
 ## HTML을 주는 부분
 @app.route('/')
@@ -52,7 +70,7 @@ def search_category():
 
          soup = BeautifulSoup(html, 'html.parser')
    else :
-      data = requests.get(url,headers=headers)
+      data = requests.get(url,headers=RandomUserAgentTest())
       soup = BeautifulSoup(data.text, 'html.parser')
 
    cat_result_box = list()
@@ -127,7 +145,7 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
                div_grade = ''
             if div_grade in ('파워', '빅파워', '프리미엄'):
                   time.sleep(random.uniform(0.7, 1.5))
-                  name_response = requests.get(name.attrs['href'],headers={'User-Agent' : ua.random})
+                  name_response = requests.get(name.attrs['href'],headers=RandomUserAgentTest())
                   soup = BeautifulSoup(name_response.text, 'html.parser') # beautifulsoup 네이버 막힘
                   print(soup)
                   # driver2 = webdriver.Chrome(options=chrome_options)
