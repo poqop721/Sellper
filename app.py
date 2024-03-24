@@ -124,18 +124,18 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
             except:
                div_grade = ''
             if div_grade in ('파워', '빅파워', '프리미엄'):
-                  # name_response = requests.get(name.attrs['href'],headers=headers)
+                  name_response = requests.get(name.attrs['href'],headers=headers)
                   time.sleep(random.uniform(0.2, 0.7))
-                  # soup = BeautifulSoup(name_response.text, 'html.parser') # beautifulsoup 네이버 막힘
+                  soup = BeautifulSoup(name_response.text, 'html.parser') # beautifulsoup 네이버 막힘
                   
-                  driver2 = webdriver.Chrome(options=chrome_options)
+                  # driver2 = webdriver.Chrome(options=chrome_options)
    
-                  driver2.get(name.attrs['href'])
-                  time.sleep(1)
+                  # driver2.get(name.attrs['href'])
+                  # time.sleep(1)
 
-                  html = driver2.page_source
+                  # html = driver2.page_source
 
-                  soup = BeautifulSoup(html, 'html.parser')
+                  # soup = BeautifulSoup(html, 'html.parser')
                   # print(soup)
 
                   # 태그 추출 위해 <meta> 태그 스크래핑 
