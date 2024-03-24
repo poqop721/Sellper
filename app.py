@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify, request
 
 from bs4 import BeautifulSoup
 import requests
+from fake_useragent import UserAgent
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -10,7 +11,8 @@ import time, random
 from tqdm import tqdm
 
 app = Flask(__name__)
-headers = {'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'}
+ua = UserAgent()
+headers = {'User-Agent' : ua.random}
 
 chrome_options = Options()
 chrome_options.add_argument("--disable-extensions")
@@ -124,8 +126,7 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
             except:
                div_grade = ''
             if div_grade in ('파워', '빅파워', '프리미엄'):
-                  name_response = requests.get(url=name.attrs['href'],headers=headers)
-                  print(name.attrs['href'])
+                  name_response = requests.get(name.attrs['href'],headers=headers)
                   time.sleep(random.uniform(0.2, 0.7))
                   soup = BeautifulSoup(name_response.text, 'html.parser') # beautifulsoup 네이버 막힘
                   
