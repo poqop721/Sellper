@@ -128,7 +128,7 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
                   req = urllib.request.Request(url=name.attrs['href'],headers=headers)
                   name_response = urllib.request.urlopen(req)
                   time.sleep(random.uniform(0.2, 0.7))
-                  soup = BeautifulSoup(name_response, 'html.parser') # beautifulsoup 네이버 막힘
+                  soup = BeautifulSoup(name_response.text, 'html.parser') # beautifulsoup 네이버 막힘
                   print(soup)
                   
                   # driver2 = webdriver.Chrome(options=chrome_options)
