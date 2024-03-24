@@ -146,13 +146,13 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
                   div_grade = content.select_one('.adProduct_grade__C3wzo').text
             except:
                div_grade = ''
+            driver2 = webdriver.Chrome(options=chrome_options)
             if div_grade in ('파워', '빅파워', '프리미엄'):
                   # time.sleep(random.uniform(0.7, 1.5))
                   # randomH = RandomUserAgentTest()
                   # name_response = requests.get(name.attrs['href'],headers=randomH.ret_headers())
                   # soup = BeautifulSoup(name_response.text, 'html.parser') # beautifulsoup 네이버 막힘
                   # print(soup)
-                  driver2 = webdriver.Chrome(options=chrome_options)
    
                   driver2.get(name.attrs['href'])
                   time.sleep(random.uniform(0.7, 1.5))
@@ -176,6 +176,7 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
                   except:
                      print('\nnono\n')
                   time.sleep(random.uniform(0.3, 1))
+            driver2.close()
    return num_of_content
 
 def nameCheck(name_result_box):
