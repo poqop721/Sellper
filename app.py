@@ -159,7 +159,7 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
 
                   # html = driver2.page_source
 
-                  # # del randomH
+                  del randomH
                   # soup = BeautifulSoup(html, 'html.parser')
                   # print(soup)
 
