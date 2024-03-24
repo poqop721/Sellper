@@ -26,7 +26,6 @@ from random_user_agent.params import SoftwareName, OperatingSystem
 class RandomUserAgentTest:
     def __init__(self):
         self.get_headers()
-        print(self.headers)
 
     def set_user_agent(self):
         software_names = [SoftwareName.CHROME.value]
@@ -39,6 +38,8 @@ class RandomUserAgentTest:
         self.headers = {
             "User-Agent": self.user_agent,
         }
+    def ret_headers(self):
+        return self.headers
 
 ## HTML을 주는 부분
 @app.route('/')
@@ -70,8 +71,10 @@ def search_category():
 
          soup = BeautifulSoup(html, 'html.parser')
    else :
-      data = requests.get(url,headers=RandomUserAgentTest())
+      randomH = RandomUserAgentTest()
+      data = requests.get(url,headers=randomH.ret_headers())
       soup = BeautifulSoup(data.text, 'html.parser')
+      del randomH
 
    cat_result_box = list()
    name_result_box = list()
@@ -145,8 +148,10 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
                div_grade = ''
             if div_grade in ('파워', '빅파워', '프리미엄'):
                   time.sleep(random.uniform(0.7, 1.5))
-                  name_response = requests.get(name.attrs['href'],headers=RandomUserAgentTest())
+                  randomH = RandomUserAgentTest()
+                  name_response = requests.get(name.attrs['href'],headers=randomH.ret_headers())
                   soup = BeautifulSoup(name_response.text, 'html.parser') # beautifulsoup 네이버 막힘
+                  del randomH
                   print(soup)
                   # driver2 = webdriver.Chrome(options=chrome_options)
    
