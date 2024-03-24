@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify, request
 
 from bs4 import BeautifulSoup
 import requests
+import urllib.request
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -124,9 +125,10 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
             except:
                div_grade = ''
             if div_grade in ('파워', '빅파워', '프리미엄'):
-                  name_response = requests.get(url=name.attrs['href'],headers=headers)
+                  req = urllib.request.Request(url=name.attrs['href'],headers=headers)
+                  name_response = urllib.request.urlopen(req)
                   time.sleep(random.uniform(0.2, 0.7))
-                  soup = BeautifulSoup(name_response.text, 'html.parser') # beautifulsoup 네이버 막힘
+                  soup = BeautifulSoup(name_response, 'html.parser') # beautifulsoup 네이버 막힘
                   print(soup)
                   
                   # driver2 = webdriver.Chrome(options=chrome_options)
