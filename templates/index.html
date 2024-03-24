@@ -453,9 +453,17 @@
                     finalUrl = "https://search.shopping.naver.com/search/all?query=" + $('#search_name').val() + '&sort=review_rel'
                     break
             }
-            if($('#check_tag').is(':checked') && num_of_pages > 4){
-                alert('태그 검색의 분석 상품 갯수는 최대 15개 입니다. \n분석 상품 갯수를 15개 이하로 설정해주세요.')
-                return
+            if($('#check_tag').is(':checked')){
+                if(num_of_pages > 4){
+                    alert('태그 검색의 분석 상품 갯수는 최대 15개 입니다. \n분석 상품 갯수를 15개 이하로 설정해주세요.')
+                    return
+                } else if(num_of_pages === 0){
+                    $('.loading_msg_tag').text = '태그 검색으로 인해 약 2분정도 소요됩니다.'
+                } else if(num === 4){
+                    $('.loading_msg_tag').text = '태그 검색으로 인해 약 5분정도 소요됩니다.'
+                }
+            } else{
+                $('.loading_msg_tag').text = ''
             }
             if (search_name == "") {
                 alert('먼저 검색어를 입력해주세요')
@@ -964,7 +972,8 @@
     <div class="wrap-loading display-none">
         <div><img src="{{url_for('static', filename='loading1.gif')}}" style="width:50px" />
         </div>
-        <span class="loading_msg"> 로딩중입니다.<br> 이 페이지를 끄지 마십시오.<br>{{progress}}</span>
+        <span class="loading_msg"> 로딩중입니다.<br> 이 페이지를 끄지 마십시오.<br><span class="loading_msg_tag"></span>
+    </span>
     </div>
 </body>
 
