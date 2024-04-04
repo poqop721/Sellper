@@ -72,7 +72,7 @@ def search_category():
          soup = BeautifulSoup(html, 'html.parser')
    else :
       countExit = 0
-      while(countExit < 6):
+      while(countExit < 11):
          randomH = RandomUserAgentTest()
          data = requests.get(url,headers=randomH.ret_headers())
          soup = BeautifulSoup(data.text, 'html.parser')
@@ -80,7 +80,8 @@ def search_category():
             if list(soup.select('.head'))[0].text == '부적절한 요청입니다.':
                del randomH
                countExit += 1
-               time.sleep(1)
+               time.sleep(random.uniform(0.7, 1.5))
+               print(f'retrying : {countExit} / 10')
          except: # userAgent 성공시
             print('ok')
             del randomH
