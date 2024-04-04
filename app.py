@@ -67,10 +67,9 @@ def search_category():
          body.send_keys(Keys.PAGE_DOWN)
          time.sleep(0.5)
 
-         html = driver.page_source
+      html = driver.page_source
 
-         soup = BeautifulSoup(html, 'html.parser')
-         print(soup)
+      soup = BeautifulSoup(html, 'html.parser')
    else :
       countExit = 0
       while(countExit < 11):
