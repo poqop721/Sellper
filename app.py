@@ -77,7 +77,7 @@ def search_category():
       while(countExit < 11):
          randomH = RandomUserAgentTest()
          head = randomH.ret_headers()
-         print(head)
+         print(str(head))
          data = requests.get(url,headers=head)
          soup = BeautifulSoup(data.text, 'html.parser')
          # f = open('/home/ubuntu/sellper/Sellpertest2.txt','w',encoding='utf-8')
