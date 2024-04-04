@@ -38,8 +38,11 @@ class RandomUserAgentTest:
         self.headers = {
             "User-Agent": self.user_agent,
         }
+        self.headers_str = f"--user-agent={self.user_agent}"
     def ret_headers(self):
         return self.headers
+    def ret_headers_str(self):
+        return self.headers_str
 
 ## HTML을 주는 부분
 @app.route('/')
@@ -55,6 +58,8 @@ def search_category():
    check = request.form.getlist('check[]')
    print(num_of_page, check)
    if num_of_page != 0 : # beautifulsoup 네이버 막힘
+      randomH = RandomUserAgentTest()
+      chrome_options.add_argument(randomH.ret_headers_str())
       driver = webdriver.Chrome(options=chrome_options)
 
       driver.get(url)
@@ -72,6 +77,7 @@ def search_category():
       soup = BeautifulSoup(html, 'html.parser')
       # f = open('/home/ubuntu/sellper/Sellpertest.txt','w',encoding='utf-8')
       # f.write(str(soup))
+      del randomH
    else :
       countExit = 0
       while(countExit < 11):
