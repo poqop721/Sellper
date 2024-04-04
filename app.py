@@ -70,16 +70,16 @@ def search_category():
       html = driver.page_source
 
       soup = BeautifulSoup(html, 'html.parser')
-      f = open('/home/ubuntu/sellper/Sellpertest.txt','w',encoding='utf-8')
-      f.write(str(soup.prettify()))
+      # f = open('/home/ubuntu/sellper/Sellpertest.txt','w',encoding='utf-8')
+      # f.write(str(soup.prettify()))
    else :
       countExit = 0
       while(countExit < 11):
          randomH = RandomUserAgentTest()
          data = requests.get(url,headers=randomH.ret_headers())
          soup = BeautifulSoup(data.text, 'html.parser')
-         f = open('/home/ubuntu/sellper/Sellpertest2.txt','w',encoding='utf-8')
-         f.write(str(soup.prettify()))
+         # f = open('/home/ubuntu/sellper/Sellpertest2.txt','w',encoding='utf-8')
+         # f.write(str(soup.prettify()))
          try: # userAgent 실패시
             if list(soup.select('.head'))[0].text == '부적절한 요청입니다.':
                del randomH
@@ -114,6 +114,7 @@ def search_category():
    if num_of_page != 0 :
       driver.close()
    print(f'=>검색한 항목 수 : {count} ({len(name_result_box)})\n')
+   driver.delete_all_cookies()
    return jsonify({'result': 'success','categories':cat_result,'name':name_result,'tag':tag_result})
 
 def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
