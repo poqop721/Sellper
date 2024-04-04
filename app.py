@@ -70,7 +70,6 @@ def search_category():
       html = driver.page_source
 
       soup = BeautifulSoup(html, 'html.parser')
-      print(soup)
    else :
       countExit = 0
       while(countExit < 11):
@@ -117,6 +116,7 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
    num_of_content = 0
    if noads:
       contents = list(soup.select('.product_item__MDtDF ')) #no광고
+      print(contents)
       desc_msg = '일반 상품 분석중 : '
    else :
       contents = list(soup.select('.adProduct_item__1zC9h')) #광고
