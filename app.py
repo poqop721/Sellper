@@ -71,17 +71,21 @@ def search_category():
 
          soup = BeautifulSoup(html, 'html.parser')
    else :
-      randomH = RandomUserAgentTest()
-      data = requests.get(url,headers=randomH.ret_headers())
-      soup = BeautifulSoup(data.text, 'html.parser')
-      try:
-         if list(soup.select('.head'))[0].text == '부적절한 요청입니다.':
-            print('true')
-         else :
-            print('false')
-      except:
-         print('ok')
-      del randomH
+      countExit = 0
+      while(countExit < 6):
+         randomH = RandomUserAgentTest()
+         data = requests.get(url,headers=randomH.ret_headers())
+         soup = BeautifulSoup(data.text, 'html.parser')
+         try: # userAgent 실패시
+            if list(soup.select('.head'))[0].text == '부적절한 요청입니다.':
+               del randomH
+               countExit += 1
+               time.sleep(1)
+         except: # userAgent 성공시
+            print('ok')
+            del randomH
+            break
+            
 
    cat_result_box = list()
    name_result_box = list()
