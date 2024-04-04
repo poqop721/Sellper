@@ -68,9 +68,9 @@ def search_category():
          time.sleep(0.5)
 
       html = driver.page_source
+      print(html)
 
       soup = BeautifulSoup(html, 'html.parser')
-      print(soup.select('.product_item__MDtDF '))
    else :
       countExit = 0
       while(countExit < 11):
