@@ -112,9 +112,9 @@ def search_category():
          cat_result.append(cate)
 
    if num_of_page != 0 :
+      driver.delete_all_cookies()
       driver.close()
    print(f'=>검색한 항목 수 : {count} ({len(name_result_box)})\n')
-   driver.delete_all_cookies()
    return jsonify({'result': 'success','categories':cat_result,'name':name_result,'tag':tag_result})
 
 def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
