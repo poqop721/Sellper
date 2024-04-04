@@ -16,7 +16,7 @@ chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--disable-gpu")
 # chrome_options.add_argument("--headless")
 chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
-chrome_options.add_argument('--headless')
+chrome_options.add_argument('--headless=new')
 chrome_options.add_argument('--no-sandbox')
 
 from random_user_agent.user_agent import UserAgent
@@ -67,10 +67,9 @@ def search_category():
          body.send_keys(Keys.PAGE_DOWN)
          time.sleep(0.5)
 
-      html = driver.page_source
-      print(html)
+         html = driver.page_source
 
-      soup = BeautifulSoup(html, 'html.parser')
+         soup = BeautifulSoup(html, 'html.parser')
    else :
       countExit = 0
       while(countExit < 11):
