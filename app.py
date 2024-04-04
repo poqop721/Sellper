@@ -58,14 +58,15 @@ def search_category():
       driver = webdriver.Chrome(options=chrome_options)
 
       driver.get(url)
+      driver.delete_all_cookies()
       time.sleep(1)
 
       body = driver.find_element(By.TAG_NAME, "body")
       for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
                desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
                ncols =80,):
-         # body.send_keys(Keys.PAGE_DOWN)
-         time.sleep(0.5)
+         body.send_keys(Keys.PAGE_DOWN)
+         time.sleep(0.7)
 
       html = driver.page_source
 
@@ -112,7 +113,6 @@ def search_category():
          cat_result.append(cate)
 
    if num_of_page != 0 :
-      driver.delete_all_cookies()
       driver.close()
    print(f'=>검색한 항목 수 : {count} ({len(name_result_box)})\n')
    return jsonify({'result': 'success','categories':cat_result,'name':name_result,'tag':tag_result})
