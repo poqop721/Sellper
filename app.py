@@ -64,22 +64,22 @@ def search_category():
       for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
                desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
                ncols =80,):
-         body.send_keys(Keys.PAGE_DOWN)
+         # body.send_keys(Keys.PAGE_DOWN)
          time.sleep(0.5)
 
-      soup = driver.page_source
+      html = driver.page_source
 
-      # soup = BeautifulSoup(html, 'html.parser')
-      # f = open('/home/ubuntu/sellper/Sellpertest.txt','w',encoding='utf-8')
-      # f.write(str(soup))
+      soup = BeautifulSoup(html, 'html.parser')
+      f = open('/home/ubuntu/sellper/Sellpertest.txt','w',encoding='utf-8')
+      f.write(str(soup.prettify()))
    else :
       countExit = 0
       while(countExit < 11):
          randomH = RandomUserAgentTest()
          data = requests.get(url,headers=randomH.ret_headers())
          soup = BeautifulSoup(data.text, 'html.parser')
-         # f = open('/home/ubuntu/sellper/Sellpertest2.txt','w',encoding='utf-8')
-         # f.write(str(soup))
+         f = open('/home/ubuntu/sellper/Sellpertest2.txt','w',encoding='utf-8')
+         f.write(str(soup.prettify()))
          try: # userAgent 실패시
             if list(soup.select('.head'))[0].text == '부적절한 요청입니다.':
                del randomH
