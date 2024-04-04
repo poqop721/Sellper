@@ -74,7 +74,9 @@ def search_category():
       countExit = 0
       while(countExit < 11):
          randomH = RandomUserAgentTest()
-         data = requests.get(url,headers=randomH.ret_headers())
+         head = randomH.ret_headers()
+         print(head)
+         data = requests.get(url,headers=head)
          soup = BeautifulSoup(data.text, 'html.parser')
          try: # userAgent 실패시
             if list(soup.select('.head'))[0].text == '부적절한 요청입니다.':
@@ -116,7 +118,6 @@ def getInfo(soup,cat_result_box,name_result_box,tag_result,noads,check):
    num_of_content = 0
    if noads:
       contents = list(soup.select('.product_item__MDtDF ')) #no광고
-      print(contents)
       desc_msg = '일반 상품 분석중 : '
    else :
       contents = list(soup.select('.adProduct_item__1zC9h')) #광고
