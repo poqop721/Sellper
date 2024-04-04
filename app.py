@@ -71,7 +71,7 @@ def search_category():
 
       soup = BeautifulSoup(html, 'html.parser')
       f = open('/home/ubuntu/sellper/Sellpertest.txt','w',encoding='utf-8')
-      f.write(soup)
+      f.write(str(soup))
    else :
       countExit = 0
       while(countExit < 11):
