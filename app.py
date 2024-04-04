@@ -78,6 +78,8 @@ def search_category():
          randomH = RandomUserAgentTest()
          data = requests.get(url,headers=randomH.ret_headers())
          soup = BeautifulSoup(data.text, 'html.parser')
+         f = open('/home/ubuntu/sellper/Sellpertest2.txt','w',encoding='utf-8')
+         f.write(str(soup))
          try: # userAgent 실패시
             if list(soup.select('.head'))[0].text == '부적절한 요청입니다.':
                del randomH
