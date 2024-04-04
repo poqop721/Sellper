@@ -70,13 +70,12 @@ def search_category():
          html = driver.page_source
 
          soup = BeautifulSoup(html, 'html.parser')
+         print(soup)
    else :
       countExit = 0
       while(countExit < 11):
          randomH = RandomUserAgentTest()
-         head = randomH.ret_headers()
-         print(head)
-         data = requests.get(url,headers=head)
+         data = requests.get(url,headers=randomH.ret_headers())
          soup = BeautifulSoup(data.text, 'html.parser')
          try: # userAgent 실패시
             if list(soup.select('.head'))[0].text == '부적절한 요청입니다.':
