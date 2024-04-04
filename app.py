@@ -15,7 +15,7 @@ chrome_options = Options()
 chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--disable-gpu")
 # chrome_options.add_argument("--headless")
-chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.775 Safari/537.36")
+chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
 chrome_options.add_argument('--headless=new')
 chrome_options.add_argument('--no-sandbox')
 
@@ -70,13 +70,12 @@ def search_category():
       html = driver.page_source
 
       soup = BeautifulSoup(html, 'html.parser')
+      print(soup.select('.product_item__MDtDF '))
    else :
       countExit = 0
       while(countExit < 11):
          randomH = RandomUserAgentTest()
-         head = randomH.ret_headers()
-         print(head)
-         data = requests.get(url,headers=head)
+         data = requests.get(url,headers=randomH.ret_headers())
          soup = BeautifulSoup(data.text, 'html.parser')
          try: # userAgent 실패시
             if list(soup.select('.head'))[0].text == '부적절한 요청입니다.':
