@@ -57,8 +57,8 @@ def search_category():
    if num_of_page != 0 : # beautifulsoup 네이버 막힘
       driver = webdriver.Chrome(options=chrome_options)
 
-      driver.get(url)
       driver.delete_all_cookies()
+      driver.get(url)
       time.sleep(1)
 
       body = driver.find_element(By.TAG_NAME, "body")
