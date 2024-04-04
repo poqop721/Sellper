@@ -15,7 +15,7 @@ chrome_options = Options()
 chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--disable-gpu")
 # chrome_options.add_argument("--headless")
-
+chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
 chrome_options.add_argument('--headless=new')
 chrome_options.add_argument('--no-sandbox')
 
@@ -38,11 +38,8 @@ class RandomUserAgentTest:
         self.headers = {
             "User-Agent": self.user_agent,
         }
-        self.headers_str = f"--user-agent={self.user_agent}"
     def ret_headers(self):
         return self.headers
-    def ret_headers_str(self):
-        return self.headers_str
 
 ## HTML을 주는 부분
 @app.route('/')
@@ -58,8 +55,6 @@ def search_category():
    check = request.form.getlist('check[]')
    print(num_of_page, check)
    if num_of_page != 0 : # beautifulsoup 네이버 막힘
-      randomH = RandomUserAgentTest()
-      chrome_options.add_argument(randomH.ret_headers_str())
       driver = webdriver.Chrome(options=chrome_options)
 
       driver.get(url)
@@ -72,19 +67,16 @@ def search_category():
          body.send_keys(Keys.PAGE_DOWN)
          time.sleep(0.5)
 
-      html = driver.page_source
+      soup = driver.page_source
 
-      soup = BeautifulSoup(html, 'html.parser')
+      # soup = BeautifulSoup(html, 'html.parser')
       # f = open('/home/ubuntu/sellper/Sellpertest.txt','w',encoding='utf-8')
       # f.write(str(soup))
-      del randomH
    else :
       countExit = 0
       while(countExit < 11):
          randomH = RandomUserAgentTest()
-         head = randomH.ret_headers()
-         print(str(head))
-         data = requests.get(url,headers=head)
+         data = requests.get(url,headers=randomH.ret_headers())
          soup = BeautifulSoup(data.text, 'html.parser')
          # f = open('/home/ubuntu/sellper/Sellpertest2.txt','w',encoding='utf-8')
          # f.write(str(soup))
