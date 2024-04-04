@@ -74,7 +74,7 @@ def search_category():
       randomH = RandomUserAgentTest()
       data = requests.get(url,headers=randomH.ret_headers())
       soup = BeautifulSoup(data.text, 'html.parser')
-      print(soup)
+      print(soup.select('.head'))
       del randomH
 
    cat_result_box = list()
