@@ -75,7 +75,10 @@ def search_category():
       data = requests.get(url,headers=randomH.ret_headers())
       soup = BeautifulSoup(data.text, 'html.parser')
       try:
-         print(list(soup.select('.head'))[0].text)
+         if list(soup.select('.head'))[0].text == '부적절한 요청입니다.':
+            print('true')
+         else :
+            print('false')
       except:
          print('ok')
       del randomH
