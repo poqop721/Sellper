@@ -75,6 +75,7 @@ def search_category():
       while(countExit < 11):
          randomH = RandomUserAgentTest()
          head = randomH.ret_headers()
+         print(head)
          data = requests.get(url,headers=head)
          soup = BeautifulSoup(data.text, 'html.parser')
          try: # userAgent 실패시
