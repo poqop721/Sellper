@@ -15,7 +15,7 @@ chrome_options = Options()
 chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--disable-gpu")
 # chrome_options.add_argument("--headless")
-chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
+# chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
 chrome_options.add_argument('--headless=new')
 chrome_options.add_argument('--no-sandbox')
 
@@ -70,8 +70,8 @@ def search_category():
       html = driver.page_source
 
       soup = BeautifulSoup(html, 'html.parser')
-      # f = open('/home/ubuntu/sellper/Sellpertest.txt','w',encoding='utf-8')
-      # f.write(str(soup.prettify()))
+      f = open('/home/ubuntu/sellper/Sellpertest.txt','w',encoding='utf-8')
+      f.write(str(soup.prettify()))
    else :
       countExit = 0
       while(countExit < 11):
