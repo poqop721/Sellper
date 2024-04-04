@@ -70,6 +70,7 @@ def search_category():
       html = driver.page_source
 
       soup = BeautifulSoup(html, 'html.parser')
+      print(soup)
    else :
       countExit = 0
       while(countExit < 11):
