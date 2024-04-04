@@ -70,7 +70,8 @@ def search_category():
       html = driver.page_source
 
       soup = BeautifulSoup(html, 'html.parser')
-      print(soup)
+      f = open('/Users/kdcrafter10/Documents/test.txt','w',encoding='utf-8')
+      f.write(soup)
    else :
       countExit = 0
       while(countExit < 11):
