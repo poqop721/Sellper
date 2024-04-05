@@ -15,7 +15,7 @@ chrome_options = Options()
 chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--disable-gpu")
 # chrome_options.add_argument("--headless")
-chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
+chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
 chrome_options.add_argument('--headless=new')
 chrome_options.add_argument('--no-sandbox')
 
@@ -59,6 +59,7 @@ def search_category():
 
       driver.get(url)
       time.sleep(1)
+      driver.refresh()
 
       body = driver.find_element(By.TAG_NAME, "body")
       for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
@@ -70,8 +71,8 @@ def search_category():
       html = driver.page_source
 
       soup = BeautifulSoup(html, 'html.parser')
-      f = open('/home/ubuntu/sellper/Sellpertest.txt','w',encoding='utf-8')
-      f.write(str(body.text))
+      # f = open('/home/ubuntu/sellper/Sellpertest.txt','w',encoding='utf-8')
+      # f.write(str(body.text))
    else :
       countExit = 0
       while(countExit < 11):
@@ -221,4 +222,4 @@ def nameCheck(name_result_box):
 
 
 if __name__ == '__main__':
-   app.run('0.0.0.0',port=5000,debug=True)
+   app.run('0.0.0.0',port=3000,debug=True)
