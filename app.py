@@ -61,6 +61,7 @@ def search_category():
       time.sleep(1)
 
       body = driver.find_element(By.TAG_NAME, "body")
+      print(body)
       for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
                desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
                ncols =80,):
