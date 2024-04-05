@@ -60,12 +60,12 @@ def search_category():
       driver.get(url)
       time.sleep(1)
 
-      # body = driver.find_element(By.TAG_NAME, "body")
-      # for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
-      #          desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
-      #          ncols =80,):
-      #    body.send_keys(Keys.PAGE_DOWN)
-      #    time.sleep(0.7)
+      body = driver.find_element(By.TAG_NAME, "body")
+      for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
+               desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
+               ncols =80,):
+         body.send_keys(Keys.PAGE_DOWN)
+         time.sleep(random.uniform(1, 1.7))
 
       html = driver.page_source
 
