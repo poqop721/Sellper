@@ -61,7 +61,6 @@ def search_category():
       time.sleep(1)
 
       body = driver.find_element(By.TAG_NAME, "body")
-      print(body)
       for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
                desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
                ncols =80,):
@@ -72,7 +71,7 @@ def search_category():
 
       soup = BeautifulSoup(html, 'html.parser')
       f = open('/home/ubuntu/sellper/Sellpertest.txt','w',encoding='utf-8')
-      f.write(str(soup.prettify()))
+      f.write(str(body.text))
    else :
       countExit = 0
       while(countExit < 11):
