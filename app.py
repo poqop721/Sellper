@@ -71,16 +71,12 @@ def search_category():
       html = driver.page_source
 
       soup = BeautifulSoup(html, 'html.parser')
-      # f = open('/home/ubuntu/sellper/Sellpertest.txt','w',encoding='utf-8')
-      # f.write(str(body.text))
    else :
       countExit = 0
       while(countExit < 11):
          randomH = RandomUserAgentTest()
          data = requests.get(url,headers=randomH.ret_headers())
          soup = BeautifulSoup(data.text, 'html.parser')
-         # f = open('/home/ubuntu/sellper/Sellpertest2.txt','w',encoding='utf-8')
-         # f.write(str(soup.prettify()))
          try: # userAgent 실패시
             if list(soup.select('.head'))[0].text == '부적절한 요청입니다.':
                del randomH
@@ -222,4 +218,4 @@ def nameCheck(name_result_box):
 
 
 if __name__ == '__main__':
-   app.run('0.0.0.0',port=3000,debug=True)
+   app.run('0.0.0.0',port=5000,debug=True)
