@@ -55,12 +55,12 @@ def search_category():
    check = request.form.getlist('check[]')
    print(num_of_page, check)
    if num_of_page != 0 : # beautifulsoup 네이버 막힘
+      print('before')
       driver = webdriver.Chrome(options=chrome_options)
+      print('after')
       driver.get(url)
       time.sleep(1)
-      print('before')
       driver.refresh()
-      print('after')
       body = driver.find_element(By.TAG_NAME, "body")
       for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
                desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
@@ -69,7 +69,7 @@ def search_category():
          time.sleep(random.uniform(1, 1.7))
 
       html = driver.page_source
-
+      driver.close()
       soup = BeautifulSoup(html, 'html.parser')
    else :
       countExit = 0
@@ -108,8 +108,6 @@ def search_category():
       if cate not in cat_result :
          cat_result.append(cate)
 
-   if num_of_page != 0 :
-      driver.close()
    print(f'=>검색한 항목 수 : {count} ({len(name_result_box)})\n')
    return jsonify({'result': 'success','categories':cat_result,'name':name_result,'tag':tag_result})
 
