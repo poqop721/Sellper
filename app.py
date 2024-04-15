@@ -55,8 +55,9 @@ def search_category():
    check = request.form.getlist('check[]')
    print(num_of_page, check)
    if num_of_page != 0 : # beautifulsoup 네이버 막힘
+      print('before')
       driver = webdriver.Chrome(options=chrome_options)
-
+      print('after')
       driver.get(url)
       time.sleep(1)
       driver.refresh()
