@@ -6,6 +6,8 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 import time, random
 from tqdm import tqdm
 
@@ -55,8 +57,7 @@ def search_category():
    check = request.form.getlist('check[]')
    print(num_of_page, check)
    if num_of_page != 0 : # beautifulsoup 네이버 막힘
-      driver = webdriver.Chrome(options=chrome_options)
-      print(driver)
+      driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
       driver.get(url)
       print('pass')
       time.sleep(1)
