@@ -56,20 +56,23 @@ def search_category():
    print(num_of_page, check)
    if num_of_page != 0 : # beautifulsoup 네이버 막힘
       driver = webdriver.Chrome(options=chrome_options)
-      print('before')
-      driver.get(url)
-      print('after')
-      time.sleep(1)
-      driver.refresh()
-      body = driver.find_element(By.TAG_NAME, "body")
-      for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
-               desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
-               ncols =80,):
-         body.send_keys(Keys.PAGE_DOWN)
-         time.sleep(random.uniform(1, 1.7))
+      try :
+         driver.get(url)
+         print('after')
+         time.sleep(1)
+         driver.refresh()
+         body = driver.find_element(By.TAG_NAME, "body")
+         for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
+                  desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
+                  ncols =80,):
+            body.send_keys(Keys.PAGE_DOWN)
+            time.sleep(random.uniform(1, 1.7))
 
-      html = driver.page_source
-      driver.close()
+         html = driver.page_source
+         driver.close()
+      except :
+         print('error')
+         return
       soup = BeautifulSoup(html, 'html.parser')
    else :
       countExit = 0
