@@ -51,7 +51,7 @@ class DriverGetClass:
 
    def getUrl(self):
       self.driver = webdriver.Chrome(options=chrome_options)
-      self.driver.set_page_load_timeout(5)
+      self.driver.set_page_load_timeout(7)
       try :
          self.driver.get(self.url)
          self.driver.refresh()
