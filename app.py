@@ -1,3 +1,4 @@
+import threading
 from flask import Flask, render_template, jsonify, request
 
 from bs4 import BeautifulSoup
@@ -6,8 +7,6 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 import time, random
 from tqdm import tqdm
 
@@ -20,7 +19,6 @@ chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
 chrome_options.add_argument('--headless=new')
 chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--disable-browser-side-navigation')
 
 from random_user_agent.user_agent import UserAgent
 from random_user_agent.params import SoftwareName, OperatingSystem
@@ -43,6 +41,61 @@ class RandomUserAgentTest:
         }
     def ret_headers(self):
         return self.headers
+    
+class DriverGetClass:
+   def __init__(self):
+      self.event = threading.Event()
+      self.driver = None
+      self.done = False
+      self.url = ''
+
+   def getUrl(self):
+      self.driver = webdriver.Chrome(options=chrome_options)
+      self.driver.set_page_load_timeout(5)
+      try :
+         self.driver.get(self.url)
+         self.driver.refresh()
+         self.done = True
+         self.event.set()
+      except :
+         self.driver.close()
+         self.done = False
+         self.event.set()
+
+   def start_driver(self,url,num_of_page):
+      self.url = url
+      count = 1
+      while(True):
+         if count > 10:
+            break
+         thread = threading.Thread(target=self.getUrl)
+         thread.start()
+         self.event.wait()
+         if self.done == False:
+            print(f'retrying ({count}/10)')
+            thread.join()
+            count = count + 1
+         else :
+            print('pass')
+            break
+      if self.done == True :
+         self.driver.set_page_load_timeout(30)
+         try :
+            body = self.driver.find_element(By.TAG_NAME, "body")
+            for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
+                     desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
+                     ncols =80,):
+               body.send_keys(Keys.PAGE_DOWN)
+               time.sleep(random.uniform(1, 1.7))
+
+            html = self.driver.page_source
+            self.driver.close()
+            soup = BeautifulSoup(html, 'html.parser')
+            return soup
+         except :
+            return None
+      else:
+         return None
 
 ## HTML을 주는 부분
 @app.route('/')
@@ -58,22 +111,11 @@ def search_category():
    check = request.form.getlist('check[]')
    print(num_of_page, check)
    if num_of_page != 0 : # beautifulsoup 네이버 막힘
-      driver = webdriver.Chrome(options=chrome_options)
-      time.sleep(1)
-      driver.get(url)
-      print('pass')
-      time.sleep(1)
-      driver.refresh()
-      body = driver.find_element(By.TAG_NAME, "body")
-      for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
-               desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
-               ncols =80,):
-         body.send_keys(Keys.PAGE_DOWN)
-         time.sleep(random.uniform(1, 1.7))
-
-      html = driver.page_source
-      driver.close()
-      soup = BeautifulSoup(html, 'html.parser')
+      driver_get = DriverGetClass()
+      soup = driver_get.start_driver(url,num_of_page)
+      del driver_get
+      if soup == None:
+         return jsonify({'result': 'failed'})
    else :
       countExit = 0
       while(countExit < 11):
