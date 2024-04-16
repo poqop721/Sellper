@@ -59,7 +59,7 @@ class DriverGetClass:
          self.done = True
          self.event.set()
       except :
-         self.driver.quit()
+         self.driver.close()
          self.done = False
          self.event.set()
 
@@ -82,6 +82,7 @@ class DriverGetClass:
       if self.done == True :
          self.driver.set_page_load_timeout(30)
          try :
+            print(self.driver)
             body = self.driver.find_element(By.TAG_NAME, "body")
             for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
                      desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
@@ -89,9 +90,10 @@ class DriverGetClass:
                body.send_keys(Keys.PAGE_DOWN)
                time.sleep(random.uniform(1, 1.7))
             time.sleep(1)
+            print(self.driver)
             html = self.driver.page_source
             soup = BeautifulSoup(html, 'html.parser')
-            self.driver.quit()
+            self.driver.close()
             return soup
          except :
             return None
