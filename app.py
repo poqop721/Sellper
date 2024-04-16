@@ -51,7 +51,7 @@ class DriverGetClass:
 
    def getUrl(self):
       driver = webdriver.Chrome(options=chrome_options)
-      driver.set_page_load_timeout(7)
+      driver.set_page_load_timeout(6)
       try :
          driver.get(self.url)
          time.sleep(1)
@@ -82,16 +82,13 @@ class DriverGetClass:
             break
       if self.done == True :
          driver = self.driver
-         driver.set_page_load_timeout(30)
          try :
             body = driver.find_element(By.TAG_NAME, "body")
             for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
                      desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
                      ncols =80,):
                body.send_keys(Keys.PAGE_DOWN)
-               time.sleep(random.uniform(1, 1.7))
-            time.sleep(1)
-            print(driver)
+               time.sleep(1)
             html = driver.page_source
             soup = BeautifulSoup(html, 'html.parser')
             driver.close()
