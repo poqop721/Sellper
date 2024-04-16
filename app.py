@@ -88,8 +88,8 @@ class DriverGetClass:
                      ncols =80,):
                body.send_keys(Keys.PAGE_DOWN)
                time.sleep(random.uniform(1, 1.7))
-            print('here')
             html = self.driver.page_source
+            print(html)
             self.driver.close()
             soup = BeautifulSoup(html, 'html.parser')
             return soup
