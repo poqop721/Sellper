@@ -59,6 +59,8 @@ Naver shopping scraping service that provide category, tag, product name searchi
       def ret_headers(self):
           return self.headers
   ```
+- <2024/04/16 수정> 네이버의 업데이트로 request.get()을 할 때 몇번은 client error가 발생하는 문제가 생겼다. 게다가 client error가 발생하면 driver.close() 도 먹히지 않아 무한 대기가 발생하여, 여러번 시도하는것 조차 되지 않는 상황이었다. 때문에 각 시도를 thread로 만들어서 timeout을 주어, 시간 초과시 thread를 join 하여 무한 대기에서 빠져나오고, 다시 반복하여 스레드를 만들어 탐색하는 방법으로 수정하였다.
+  
 
 ### 아쉬운 점 & 개선할 점
 태그 검색은 네이버 쇼핑 페이지에서 각각 상품 url을 얻어와 그 상품 안에서 태그를 검색한다. 때문에 기존 구현(2023.08)때는 각각 상품의 URl을 beautifulsoup4로 넘겨주어 정적인 페이지에서 태그를 갖고 올 수 있었으며, 이로 인해 태그 검색 소요 시간을 단축시킬 수 있었다.
