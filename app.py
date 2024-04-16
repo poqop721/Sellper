@@ -80,7 +80,7 @@ class DriverGetClass:
             print('pass')
             break
       if self.done == True :
-         # self.driver.set_page_load_timeout(30)
+         self.driver.set_page_load_timeout(30)
          try :
             body = self.driver.find_element(By.TAG_NAME, "body")
             for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
@@ -88,10 +88,10 @@ class DriverGetClass:
                      ncols =80,):
                body.send_keys(Keys.PAGE_DOWN)
                time.sleep(random.uniform(1, 1.7))
+            time.sleep(1)
             html = self.driver.page_source
-            print(html)
-            self.driver.close()
             soup = BeautifulSoup(html, 'html.parser')
+            self.driver.close()
             return soup
          except :
             return None
