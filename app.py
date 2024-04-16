@@ -58,7 +58,7 @@ def search_category():
    print(num_of_page, check)
    if num_of_page != 0 : # beautifulsoup 네이버 막힘
       driver = webdriver.Chrome(options=chrome_options)
-      print(driver)
+      time.sleep(1)
       driver.get(url)
       print('pass')
       time.sleep(1)
