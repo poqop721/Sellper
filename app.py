@@ -94,6 +94,7 @@ class DriverGetClass:
             soup = BeautifulSoup(html, 'html.parser')
             return soup
          except :
+            print('here')
             return None
       else:
          return None
