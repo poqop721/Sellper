@@ -54,6 +54,7 @@ class DriverGetClass:
       self.driver.set_page_load_timeout(7)
       try :
          self.driver.get(self.url)
+         time.sleep(1)
          self.driver.refresh()
          self.done = True
          self.event.set()
