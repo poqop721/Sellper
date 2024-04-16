@@ -50,16 +50,17 @@ class DriverGetClass:
       self.url = ''
 
    def getUrl(self):
-      self.driver = webdriver.Chrome(options=chrome_options)
-      self.driver.set_page_load_timeout(7)
+      driver = webdriver.Chrome(options=chrome_options)
+      driver.set_page_load_timeout(7)
       try :
-         self.driver.get(self.url)
+         driver.get(self.url)
          time.sleep(1)
-         self.driver.refresh()
+         driver.refresh()
+         self.driver = driver
          self.done = True
          self.event.set()
       except :
-         self.driver.close()
+         driver.close()
          self.done = False
          self.event.set()
 
@@ -80,20 +81,20 @@ class DriverGetClass:
             print('pass')
             break
       if self.done == True :
-         self.driver.set_page_load_timeout(30)
+         driver = self.driver
+         driver.set_page_load_timeout(30)
          try :
-            print(self.driver)
-            body = self.driver.find_element(By.TAG_NAME, "body")
+            body = driver.find_element(By.TAG_NAME, "body")
             for i in tqdm(range(0,num_of_page),total = num_of_page, ## 전체 진행수
                      desc = '상품 정보 수집중 : ', ## 진행률 앞쪽 출력 문장
                      ncols =80,):
                body.send_keys(Keys.PAGE_DOWN)
                time.sleep(random.uniform(1, 1.7))
             time.sleep(1)
-            print(self.driver)
-            html = self.driver.page_source
+            print(driver)
+            html = driver.page_source
             soup = BeautifulSoup(html, 'html.parser')
-            self.driver.close()
+            driver.close()
             return soup
          except :
             return None
