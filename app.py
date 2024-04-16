@@ -59,7 +59,7 @@ class DriverGetClass:
          self.done = True
          self.event.set()
       except :
-         self.driver.close()
+         self.driver.quit()
          self.done = False
          self.event.set()
 
@@ -91,7 +91,7 @@ class DriverGetClass:
             time.sleep(1)
             html = self.driver.page_source
             soup = BeautifulSoup(html, 'html.parser')
-            self.driver.close()
+            self.driver.quit()
             return soup
          except :
             return None
