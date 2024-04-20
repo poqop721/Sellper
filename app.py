@@ -169,7 +169,7 @@ class AnalyzeData:
 
    def __handle_meta_tag(self,name):
       driver = ChromeDriver(name.attrs['href'])
-      soup = driver.driver_get_soup(False,None,2)
+      soup = driver.driver_get_soup(False,None,1)
       del driver
       # 태그 추출 위해 <meta> 태그 스크래핑 
       try :
@@ -229,7 +229,7 @@ class ChromeDriver:
       chrome_options.add_argument("--disable-extensions")
       chrome_options.add_argument("--disable-gpu")
       chrome_options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
-      chrome_options.add_argument('--headless=new')
+      # chrome_options.add_argument('--headless=new')
       chrome_options.add_argument('--no-sandbox')
       self.chrome_options = chrome_options
 
@@ -238,7 +238,6 @@ class ChromeDriver:
       if self.done == True :
          return self.__get_soup_from_driver(num_of_page, scroll)
       else:
-         print('3')
          return None
 
    def __driver_get(self,try_num):
@@ -252,15 +251,13 @@ class ChromeDriver:
          if self.done == False:
             print(f'\n<failed driver.get - retrying ({count}/{try_num})>')
             thread.join() 
-            print('4')
             count = count + 1
          else :
-            thread.join()
             break
 
    def __get_driver_t(self):
       driver = webdriver.Chrome(options=self.chrome_options)
-      driver.set_page_load_timeout(9)
+      driver.set_page_load_timeout(7)
       try :
          driver.get(self.url)
          time.sleep(1)
@@ -268,15 +265,12 @@ class ChromeDriver:
          self.driver = driver
          self.done = True
          self.event.set()
-         print('5')
       except :
          driver.close()
          self.done = False
          self.event.set()
-         print('6')
    
    def __get_soup_from_driver(self,num_of_page,scroll):
-      print('1')
       driver = self.driver
       try :
          if(scroll):
@@ -291,7 +285,6 @@ class ChromeDriver:
          driver.close()
          return soup
       except :
-         print('error in line 291')
          return None
       
 
