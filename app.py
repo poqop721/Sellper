@@ -250,10 +250,9 @@ class ChromeDriver:
          self.event.wait()
          if self.done == False:
             print(f'\n<failed driver.get - retrying ({count}/{try_num})>')
-            thread.join() 
+            thread.join()
             count = count + 1
          else :
-            print('fin')
             thread.join()
             break
 
