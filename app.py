@@ -238,6 +238,7 @@ class ChromeDriver:
       if self.done == True :
          return self.__get_soup_from_driver(num_of_page, scroll)
       else:
+         print('3')
          return None
 
    def __driver_get(self,try_num):
@@ -272,7 +273,7 @@ class ChromeDriver:
          self.event.set()
    
    def __get_soup_from_driver(self,num_of_page,scroll):
-      print('thisfin')
+      print('1')
       driver = self.driver
       try :
          if(scroll):
@@ -285,6 +286,7 @@ class ChromeDriver:
          html = driver.page_source
          soup = BeautifulSoup(html, 'html.parser')
          driver.close()
+         print('2')
          return soup
       except :
          print('error in line 291')
