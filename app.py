@@ -43,8 +43,8 @@ def search_category():
       analyze_instance.after_process()
       returnJson = analyze_instance.make_json()
       del analyze_instance
-   except ValueError:
-      print()
+   except ValueError as e:
+      print(e)
       return jsonify({'result': 'failed'})
 
 
