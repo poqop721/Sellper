@@ -69,7 +69,7 @@ class Soup:
                   count_exit += 1
                   time.sleep(random.uniform(0.7, 1.5))
                   print(f'\n<failed user-agent - retrying : {count_exit} / 10>')
-            except: # userAgent 성공시
+            except : # userAgent 성공시
                break
       # 분석 상품 갯수가 15 이상일 때
       else :
@@ -162,7 +162,8 @@ class AnalyzeData:
             div_grade = content.select_one('.adProduct_grade__C3wzo').text
          else:
             div_grade = content.select_one('.product_grade__IzyU3').text
-      except:
+      except RuntimeError as e:
+         print('{e} : in line 166')
          div_grade = ''
          
       if div_grade in ('파워', '빅파워', '프리미엄'):
@@ -287,6 +288,7 @@ class ChromeDriver:
          driver.close()
          return soup
       except :
+         print('error in line 291')
          return None
       
 
