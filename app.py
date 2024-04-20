@@ -260,7 +260,7 @@ class ChromeDriver:
 
    def __get_driver_t(self):
       driver = webdriver.Chrome(options=self.chrome_options)
-      driver.set_page_load_timeout(7)
+      driver.set_page_load_timeout(9)
       try :
          driver.get(self.url)
          time.sleep(1)
