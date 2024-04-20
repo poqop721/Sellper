@@ -250,7 +250,7 @@ class ChromeDriver:
          self.event.wait()
          if self.done == False:
             print(f'\n<failed driver.get - retrying ({count}/{try_num})>')
-            thread.join()
+            thread.join() 
             count = count + 1
          else :
             thread.join()
@@ -272,6 +272,7 @@ class ChromeDriver:
          self.event.set()
    
    def __get_soup_from_driver(self,num_of_page,scroll):
+      print('thisfin')
       driver = self.driver
       try :
          if(scroll):
