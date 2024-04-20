@@ -289,7 +289,6 @@ class ChromeDriver:
          html = driver.page_source
          soup = BeautifulSoup(html, 'html.parser')
          driver.close()
-         print('2')
          return soup
       except :
          print('error in line 291')
