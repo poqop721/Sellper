@@ -10,6 +10,7 @@ import time, random
 from tqdm import tqdm
 from random_user_agent.user_agent import UserAgent
 from random_user_agent.params import SoftwareName, OperatingSystem
+from multiprocessing import Process
 
 app = Flask(__name__)
 
@@ -23,27 +24,36 @@ def home():
 @app.route('/search', methods=['POST'])
 def search_category():
 
-   # 파라미터 받기
-   url = request.form['url']
-   num_of_page = int(request.form['num_of_pages'])
-   check = request.form.getlist('check[]')
+   try :
+      # 파라미터 받기
+      url = request.form['url']
+      num_of_page = int(request.form['num_of_pages'])
+      check = request.form.getlist('check[]')
 
-   # url에 대한 soup 받아오기
-   soup = Soup.get_soup(url, num_of_page)
-   if soup == None:
+      # url에 대한 soup 받아오기
+      soup = Soup.get_soup(url, num_of_page)
+      if soup == None:
+         raise ValueError("soup is None")
+
+      # 일반 상품과 광고 상품 데이터 분석
+      analyze_instance = AnalyzeData(soup, check)
+      analyze_instance.get_info() 
+
+      # 데이터 후처리
+      analyze_instance.after_process()
+      returnJson = analyze_instance.make_json()
+      del analyze_instance
+   except ValueError:
+      print()
       return jsonify({'result': 'failed'})
 
-   # 일반 상품과 광고 상품 데이터 분석
-   analyze_instance = AnalyzeData(soup, check)
-   analyze_instance.get_info() 
-
-   # 데이터 후처리
-   analyze_instance.after_process()
-   returnJson = analyze_instance.make_json()
-   del analyze_instance
 
    return returnJson
 
+
+class ChromeDriver:
+   def __init__(self, url):
+      self.event = threading.Event()
 
 class Soup:
    @staticmethod
