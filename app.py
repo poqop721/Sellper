@@ -43,8 +43,7 @@ def search_category():
       analyze_instance.after_process()
       returnJson = analyze_instance.make_json()
       del analyze_instance
-   except ValueError as e:
-      print(e)
+   except :
       return jsonify({'result': 'failed'})
 
 
@@ -162,8 +161,7 @@ class AnalyzeData:
             div_grade = content.select_one('.adProduct_grade__C3wzo').text
          else:
             div_grade = content.select_one('.product_grade__IzyU3').text
-      except RuntimeError as e:
-         print('{e} : in line 166')
+      except :
          div_grade = ''
          
       if div_grade in ('파워', '빅파워', '프리미엄'):
