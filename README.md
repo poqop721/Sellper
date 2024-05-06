@@ -60,7 +60,7 @@ Naver shopping scraping service that provide category, tag, product name searchi
           return self.headers
   ```
 - <2024/04/14 수정> 네이버의 업데이트로 위 방법으로 얻은 `user_agent` 중 일부는 막혀서 정보를 가져올 수 없는 문제가 발생하였다. 또한 막히는 `user_agent`가 어떨 땐 되고 어떨 땐 안되는 무작위한 특성이 있어서, 그 특정 `user_agent`만 제외시킨다고 해도 문제가 되었다. 때문에 10번을 반복하면서 새로운 `user_agent`를 생성하여 되는 `user_agent`를 찾을 때 까지 시도하는 방법으로 바꾸어 해결하였다.
-- <2024/04/16 수정> 네이버의 업데이트로 driver.get()을 할 때 몇번은 client error가 발생하는 문제가 생겼다. 조사해보니 이 에러는 네이버 측 코드의 문제(혹은 의도)이므로 내가 어떻게 할 방법이 없었다. 게다가 client error가 발생하면 driver.close() 도 먹히지 않아 무한 대기가 발생하여, 여러번 시도하는것 조차 되지 않는 상황이었다. 때문에 각 시도를 thread로 만들어서 timeout을 주어, 시간 초과시 thread를 join 하여 무한 대기에서 빠져나오고, 다시 반복하여 스레드를 만들어 탐색하는 방법으로 수정하였다.
+- <2024/04/16 수정> 네이버의 업데이트로 driver.get()을 할 때 몇번은 application error가 발생하는 문제가 생겼다. 게다가 application error가 발생하면 driver.close() 도 먹히지 않아 무한 대기가 발생하여, 여러번 시도하는것 조차 되지 않는 상황이었다. 때문에 각 시도를 thread로 만들어서 timeout을 주어, 시간 초과시 thread를 join 하여 무한 대기에서 빠져나오고, 다시 반복하여 스레드를 만들어 탐색하는 방법으로 수정하였다.
   ```python
   while(True):
      if count > try_num:
