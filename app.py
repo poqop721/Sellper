@@ -50,10 +50,6 @@ def search_category():
    return returnJson
 
 
-class ChromeDriver:
-   def __init__(self, url):
-      self.event = threading.Event()
-
 class Soup:
    @staticmethod
    def get_soup(url, num_of_page):
